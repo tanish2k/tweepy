@@ -95,3 +95,6 @@ class ModelParser(JSONParser):
         else:
             return result
 
+class RawJsonParser(Parser):
+    def parse(self, method, payload):
+        return payload
