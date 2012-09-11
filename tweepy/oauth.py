@@ -94,13 +94,17 @@ class OAuthToken(object):
     """
     key = None
     secret = None
+    user_id = None
+    screen_name = None
     callback = None
     callback_confirmed = None
     verifier = None
 
-    def __init__(self, key, secret):
+    def __init__(self, key, secret, user_id=None, screen_name=None):
         self.key = key
         self.secret = secret
+        self.user_id = user_id
+        self.screen_name = screen_name
 
     def set_callback(self, callback):
         self.callback = callback
@@ -141,7 +145,12 @@ class OAuthToken(object):
         params = cgi.parse_qs(s, keep_blank_values=False)
         key = params['oauth_token'][0]
         secret = params['oauth_token_secret'][0]
-        token = OAuthToken(key, secret)
+        user_id = params.get('user_id')
+        screen_name = params.get('screen_name')
+        if user_id is not None and screen_name is not None:
+            user_id = user_id[0]
+            screen_name = screen_name[0]
+        token = OAuthToken(key, secret, user_id, screen_name)
         try:
             token.callback_confirmed = params['oauth_callback_confirmed'][0]
         except KeyError:
