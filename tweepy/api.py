@@ -70,6 +70,14 @@ class API(object):
         require_auth = True
     )
 
+    """ statuses/mentions """
+    mentions_timeline = bind_api(
+        path = '/statuses/mentions_timeline.json',
+        payload_type = 'status', payload_list = True,
+        allowed_param = ['since_id', 'max_id', 'count', 'page'],
+        require_auth = True
+    )
+
     """/statuses/:id/retweeted_by.format"""
     retweeted_by = bind_api(
         path = '/statuses/{id}/retweeted_by.json',
